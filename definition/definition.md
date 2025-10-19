@@ -20,8 +20,8 @@ This 8-byte block contains satellite telemetry. The value used in the conversion
 | :--- | :--- | :--- | :--- |
 | 1 | `BAT_V` | Battery Voltage | `BAT_V[V] = Value \times 0.025781` |
 | 2 | `BAT_I` | Battery Current | `BAT_I[mA] = Value \times (-50.045) + 6330.4` |
-| 3 | `BAT_T` | Battery Temperature | $BAT\_T[^{\circ}C] = \left( \frac{1185000}{\ln\left(\frac{\text{Value} \times 0.01289}{3.3 - \text{Value} \times 0.01289}\right)} \times 298 + 3976 \right) - 273$ |
-| 4 | `BPB_T` | Circuit board Temperature | $BPB\_T[^{\circ}C] = 30 - \frac{\sqrt{36.44506 - \text{Value} \times 0.06875 - 5.506}}{0.00352}$ |
+| 3 | `BAT_T` | Battery Temperature | $BAT\_T[^{\circ}C] = \frac{1185000}{\ln\left(\frac{\text{Value} \times 0.01289}{3.3 - \text{Value} \times 0.01289}\right) \times 298 + 3976} - 273$ |
+| 4 | `BPB_T` | Circuit board Temperature | $BPB\_T[^{\circ}C] = 30 - \frac{\sqrt{36.44506 - \text{Value} \times 0.06875} - 5.506}{0.00352}$ |
 | 5 | `RAW_I` | Current Consumption | `RAW_I[mA] = Value \times 51.84 - 1950.9` |
 | 6 | `data1` | See Table "data1" | N/A (Bitfield) |
 | 7 | `data2` | See Table "data2" | N/A (Bitfield) |
