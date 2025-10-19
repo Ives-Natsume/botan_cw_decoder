@@ -3,7 +3,7 @@ name: Build Multi-Platform Binaries
 on:
   push:
     tags:
-      - "v*"   # Trigger when you push version tags like v1.0.0
+      - "v*"   # Trigger only on version tags like v1.0.0
 
 jobs:
   build:
@@ -34,19 +34,24 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Package binary
+        shell: bash
         run: |
           mkdir -p dist
+          # Detect binary name automatically
+          BIN_NAME=$(basename $(cargo metadata --format-version=1 --no-deps | jq -r '.packages[0].name'))
+
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            cp target/${{ matrix.target }}/release/*.exe dist/
+            cp target/${{ matrix.target }}/release/${BIN_NAME}.exe dist/${BIN_NAME}-${{ matrix.target }}.exe
           else
-            cp target/${{ matrix.target }}/release/* dist/
+            cp target/${{ matrix.target }}/release/${BIN_NAME} dist/${BIN_NAME}-${{ matrix.target }}
           fi
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
-          path: dist
+          path: dist/
+
 
   release:
     name: Publish GitHub Release
